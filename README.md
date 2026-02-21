@@ -179,7 +179,7 @@ It’s:
 * A hybrid genre web
 * A dynamic fan network
 
-And sometimes, the strongest communities aren’t the biggest ones, they’re the most devoted ones.
+And sometimes, the strongest communities aren’t the biggest ones but the most devoted ones.
 
 ---
 
