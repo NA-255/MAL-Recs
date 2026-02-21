@@ -52,10 +52,16 @@ We built a weighted network where:
 * **Edges** = genres appearing together in the same anime
 * **Weight** = how often they co-occur
 
-📊 **Results:**<br><br>
-<img src="about networks/network1_genre_communities.png" alt="Genre Co-Occurrence Network" width="600"/>
-* 41 genres
-* 726 connections
+📊 **Results:**  
+
+<p align="center">
+  <img src="about networks/network1_genre_communities.png" 
+       alt="Genre Co-Occurrence Network" 
+       width="600"/>
+</p>
+
+* 41 genres  
+* 726 connections  
 * Very dense network (low modularity ~0.12)
 
 ### 🔥 Main Findings
