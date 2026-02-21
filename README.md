@@ -25,7 +25,7 @@ So we rebuilt the analysis using the same [Kaggle dataset](https://www.kaggle.co
 * 📺 Anime-genre bipartite mapping
 * 👥 User preference structures
 
-**Disclaimer**: 3/5 files from the dataset can be found in the data folder of this repo, the other two are very big so we suggest to open them using [RowZero](https://rowzero.com/), a spreadsheet tool for big data.
+**Disclaimer**: 3/5 files from the dataset can be found in the data folder of this repo, the other two are very big so we suggest to open them using [Row Zero](https://rowzero.com/), a spreadsheet tool for big data.
 
 ---
 
@@ -55,7 +55,7 @@ We built a weighted network where:
 📊 **Results:**  
 
 <p align="center">
-  <img src="about networks/network1_genre_communities.png" 
+  <img src="about_networks/network1_genre_communities.png" 
        alt="Genre Co-Occurrence Network" 
        width="600"/>
 </p>
