@@ -134,7 +134,7 @@
         for (var i = 0; i < params.nodes.length; i++) {
             var nodeId = params.nodes[i];
             var node = nodes.get(nodeId);
-            node.color.background = "#03fc35"; // dark green on click
+            node.color.background = "#91cefc"; // dark green on click
             nodes.update(node);
         }
 
@@ -177,13 +177,13 @@
 
     // --- Network title above canvas ---
     var titleDiv = document.createElement('div');
-    titleDiv.innerHTML = "Genre Network";
+    titleDiv.innerHTML = "Genre-Genre Undirected Co-Occurance Network";
     titleDiv.style.position = 'absolute';
     titleDiv.style.top = '20px';  // top margin
     titleDiv.style.left = '50%';
     titleDiv.style.transform = 'translateX(-50%)';
     titleDiv.style.color = '#4db8ff';
-    titleDiv.style.fontSize = '28px';
+    titleDiv.style.fontSize = '18px';
     titleDiv.style.fontWeight = 'bold';
     titleDiv.style.fontFamily = 'Tahoma';
     titleDiv.style.backgroundColor = 'transparent'; // no background, fully black behind
