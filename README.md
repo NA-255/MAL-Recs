@@ -44,6 +44,15 @@ To handle scale:
 * We sampled **10,000 users** using `numpy.random.choice`.
 
 ---
+<div align="center">
+<p>Open the <b>Live Networks</b> before continuing:</p>
+
+<a href="https://na-255.github.io/MAL-3NetworkAnalysis/" target="_blank">
+  <img src="https://img.shields.io/badge/Visit-Dashboard-9145b0?style=for-the-badge&logo=appveyor&logoColor=white" alt="Visit Dashboard"/>
+</a>
+</div>
+
+---
 # 🧠 Network 1: Genre Co-Occurrence
 
 We built a weighted network where:
