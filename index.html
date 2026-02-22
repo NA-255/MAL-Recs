@@ -16,10 +16,11 @@ body {
 /* Top Navigation */
 .navbar {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
     background-color: #1a1a1a;
     padding: 12px;
-    gap: 15px;
+    z-index: 1000;
 }
 
 .navbar button {
@@ -41,10 +42,20 @@ body {
     background-color: #b86ad9;
 }
 
+/* GitHub Button */
+#githubBtn {
+    background-color: #24292e;
+}
+
+#githubBtn:hover {
+    background-color: #444;
+}
+
 /* Layout */
 .container {
     display: flex;
     height: calc(100vh - 64px);
+    width: 100%;
 }
 
 /* Sidebar */
@@ -53,37 +64,46 @@ body {
     background-color: #1c1c1c;
     padding: 20px;
     overflow-y: auto;
-    transition: transform 0.3s ease;
+    transition: all 0.3s ease;
+    z-index: 900;
 }
 
 .sidebar.hidden {
     transform: translateX(-100%);
+    width: 0;
+    padding: 0;
+    overflow: hidden;
 }
 
-/* Toggle Button */
-.toggle-btn {
-    position: absolute;
-    left: 15px;
-    top: 75px;
-    background-color: #9145b0;
-    color: white;
-    border: none;
-    padding: 8px 14px;
-    cursor: pointer;
-    border-radius: 5px;
-    z-index: 1000;
-}
-
-/* Network iframe */
+/* Network container */
 .network-container {
     flex: 1;
+    transition: all 0.3s ease;
     position: relative;
 }
 
+.network-container.full {
+    position: absolute;
+    left: 0;
+    top: 64px; /* height of navbar */
+    width: 100%;
+    height: calc(100vh - 64px);
+    flex: none;
+}
+
+/* iframe */
 iframe {
     width: 100%;
     height: 100%;
     border: none;
+}
+
+/* Network buttons container */
+.nav-network-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex: 1;
 }
 </style>
 </head>
@@ -91,32 +111,39 @@ iframe {
 <body>
 
 <div class="navbar">
-    <button id="btn1" class="active" onclick="loadNetwork('genre_genre_network.html', 1)">Genre-Genre</button>
-    <button id="btn2" onclick="loadNetwork('anime_community_network.html', 2)">Anime-Communities</button>
-    <button id="btn3" onclick="loadNetwork('user_community_network.html', 3)">User-Community</button>
+    <!-- Sidebar toggle -->
+    <button id="toggleSidebarBtn" onclick="toggleSidebar()">☰ Info</button>
+
+    <!-- Network buttons -->
+    <div class="nav-network-buttons">
+        <button id="btn1" class="active" onclick="loadNetwork('genre_genre_network.html', 1)">Genre-Genre</button>
+        <button id="btn2" onclick="loadNetwork('anime_community_network.html', 2)">Anime-Communities</button>
+        <button id="btn3" onclick="loadNetwork('user_community_network.html', 3)">User-Community</button>
+    </div>
+
+    <!-- GitHub button -->
+    <a href="https://github.com/yourusername/yourrepo" target="_blank">
+        <button id="githubBtn">GitHub</button>
+    </a>
 </div>
 
 <div class="container">
-
     <div id="sidebar" class="sidebar">
-        <h2>Network Overwiew</h2>
+        <h2>Network Overview</h2>
         <div id="info-content"></div>
     </div>
 
-    <div class="network-container">
+    <div id="networkWrapper" class="network-container">
         <iframe id="networkFrame" src="genre_genre_network.html"></iframe>
     </div>
-
 </div>
 
 <script>
-
 function loadNetwork(file, networkNumber) {
-
     document.getElementById("networkFrame").src = file;
 
-    // Remove active class from all buttons
-    document.querySelectorAll(".navbar button").forEach(btn => {
+    // Remove active class from network buttons only
+    document.querySelectorAll(".nav-network-buttons button").forEach(btn => {
         btn.classList.remove("active");
     });
 
@@ -336,11 +363,19 @@ function loadNetwork(file, networkNumber) {
         `
     };
 
-    document.getElementById("info-content").innerHTML = info[networkNumber];
-}
+     document.getElementById("info-content").innerHTML = info[networkNumber];
+    }
 
 function toggleSidebar() {
-    document.getElementById("sidebar").classList.toggle("hidden");
+    const sidebar = document.getElementById("sidebar");
+    const networkWrapper = document.getElementById("networkWrapper");
+    sidebar.classList.toggle("hidden");
+
+    if (sidebar.classList.contains("hidden")) {
+        networkWrapper.classList.add("full");
+    } else {
+        networkWrapper.classList.remove("full");
+    }
 }
 
 // Load first network description automatically on page load
