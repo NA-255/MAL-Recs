@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Anime Network Dashboard</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Tahoma, sans-serif;
+    background-color: #111;
+    color: white;
+    overflow: hidden;
+}
+
+/* Top Navigation */
+.navbar {
+    display: flex;
+    justify-content: center;
+    background-color: #1a1a1a;
+    padding: 12px;
+    gap: 15px;
+}
+
+.navbar button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #333;
+    color: white;
+    cursor: pointer;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: 0.2s ease;
+}
+
+.navbar button.active {
+    background-color: #9145b0;
+}
+
+.navbar button:hover {
+    background-color: #b86ad9;
+}
+
+/* Layout */
+.container {
+    display: flex;
+    height: calc(100vh - 64px);
+}
+
+/* Sidebar */
+.sidebar {
+    width: 320px;
+    background-color: #1c1c1c;
+    padding: 20px;
+    overflow-y: auto;
+    transition: transform 0.3s ease;
+}
+
+.sidebar.hidden {
+    transform: translateX(-100%);
+}
+
+/* Toggle Button */
+.toggle-btn {
+    position: absolute;
+    left: 15px;
+    top: 75px;
+    background-color: #9145b0;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    cursor: pointer;
+    border-radius: 5px;
+    z-index: 1000;
+}
+
+/* Network iframe */
+.network-container {
+    flex: 1;
+    position: relative;
+}
+
+iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="navbar">
+    <button id="btn1" class="active" onclick="loadNetwork('genre_genre_network.html', 1)">Genre-Genre</button>
+    <button id="btn2" onclick="loadNetwork('anime_community_network.html', 2)">Anime-Communities</button>
+    <button id="btn3" onclick="loadNetwork('user_community_network.html', 3)">User-Community</button>
+</div>
+
+<div class="container">
+
+    <div id="sidebar" class="sidebar">
+        <h2>Network Overwiew</h2>
+        <div id="info-content"></div>
+    </div>
+
+    <div class="network-container">
+        <iframe id="networkFrame" src="genre_genre_network.html"></iframe>
+    </div>
+
+</div>
+
+<script>
+
+function loadNetwork(file, networkNumber) {
+
+    document.getElementById("networkFrame").src = file;
+
+    // Remove active class from all buttons
+    document.querySelectorAll(".navbar button").forEach(btn => {
+        btn.classList.remove("active");
+    });
+
+    document.getElementById("btn" + networkNumber).classList.add("active");
+
+    const info = {
+        1: `
+            <h3><i>Genre Co-Occurrence Network</i></h3>
+
+            <h4>Color Legenda</h4>
+            <p>
+            <b>Light-blue nodes:</b> Individual anime genres.<br>
+            <b>Blue edges:</b> Individual connections.<br>
+            <b>Grey edges (on hover):</b> Highlighted connection.
+            <b>Green edges (on click):</b> Selected connection/node.
+            </p>
+
+            <h4>How to Interact</h4>
+            <ul>
+            <li>Hover over a node to highlight its connected genres.</li>
+            <li>Click a node to display its number of connections.</li>
+            <li>Drag nodes to explore structural positioning.</li>
+            <li>Scroll to zoom in and out.</li>
+            <li>Use Shift + Click to select multiple nodes.</li>
+            </ul>
+            
+            <h4>Network Definition</h4>
+            <p>
+            This is a weighted, undirected network where:
+            </p>
+            <ul>
+            <li><b>Nodes</b> represent genres.</li>
+            <li><b>Edges</b> connect genres that appear together in the same anime.</li>
+            <li><b>Edge weight</b> reflects how frequently two genres co-occur.</li>
+            </ul>
+
+            <h4>Structural Overview</h4>
+            <ul>
+            <li>41 genres</li>
+            <li>726 connections</li>
+            <li>Low modularity (~0.12)</li>
+            </ul>
+
+            <p>
+            The low modularity indicates that genre communities are not strongly separated.
+            Instead, genres overlap extensively, forming a dense and highly interconnected structure.
+            </p>
+
+            <h4>Interpretation Guide</h4>
+            <p>
+            Genres positioned near the center of the network tend to co-occur broadly across many thematic contexts.
+            Peripheral genres are more specialized and connect to fewer genre combinations.
+            </p>
+
+            <p>
+            The network demonstrates that anime genres function as combinatorial building blocks rather than isolated categories.
+            </p>
+        `,
+        2: `
+            <h3><i>Anime-Community Bipartite Network</i></h3>
+
+            <h4>Color Legenda</h4>
+
+            <p><b>Community Nodes (Fixed Colors)</b></p>
+            <ul>
+            <li><b>Purple:</b> Action & Adventure</li>
+            <li><b>Teal:</b> Romance & Slice of Life</li>
+            <li><b>Pink:</b> Dark & Psychological</li>
+            <li><b>Dark Blue:</b> Niche & Fantasy</li>
+            </ul>
+
+            <p><b>Anime Nodes (Bridge Intensity Gradient)</b></p>
+            <ul>
+            <li><b>Blue:</b> Connected to 1 community (strong thematic concentration)</li>
+            <li><b>Green:</b> Connected to 2 communities (moderate crossover)</li>
+            <li><b>Orange:</b> Connected to 3 communities (strong hybridization)</li>
+            <li><b>Red:</b> Connected to 4 or more communities (high structural bridge)</li>
+            </ul>
+
+            <p><b>Edges:</b> White lines represent membership connections between anime and communities.</p>
+
+            <h4>How to Interact</h4>
+            <ul>
+            <li>Hover over a node to highlight its connections.</li>
+            <li>Hover over an anime to view the communities it spans.</li>
+            <li>Drag anime nodes to observe cross-community positioning.</li>
+            <li>Zoom to inspect dense bridge regions.</li>
+            </ul>
+
+            <h4>Network Definition</h4>
+            <p>
+            This is a bipartite network connecting anime titles to detected genre communities.
+            </p>
+            <ul>
+            <li><b>Community nodes</b> represent structural clusters identified through community detection.</li>
+            <li><b>Anime nodes</b> represent individual titles.</li>
+            <li><b>Edges</b> indicate that an anime contains genres belonging to that community.</li>
+            </ul>
+
+            <h4>Structural Design</h4>
+            <ul>
+            <li>All bridge anime retained.</li>
+            <li>10% random sample of non-bridge anime included for performance efficiency.</li>
+            <li>Community node size proportional to number of anime assigned.</li>
+            <li>Anime node size increases with number of communities spanned.</li>
+            </ul>
+
+            <h4>Key Analytical Findings</h4>
+            <p>
+            Each anime was assigned to the community most strongly represented in its genre composition.
+            Anime evenly distributed across communities were classified as <b>bridge anime</b>.
+            </p>
+
+            <p>
+            The strongest structural bridge was observed between:
+            </p>
+            <ul>
+            <li>Romance & Slice of Life</li>
+            <li>Niche & Fantasy</li>
+            </ul>
+
+            <p>
+            More than 50% of anime showed strong assignment confidence (>0.75), supporting the robustness of the detected structure.
+            </p>
+
+            <h4>Interpretation Guide</h4>
+            <p>
+            Anime positioned close to a single community reflect strong thematic focus.
+            Nodes positioned between communities function as structural bridges and contribute to cross-cluster integration.
+            </p>
+
+            <p>
+            The network demonstrates that genre communities operate as thematic attractors within a fluid, overlapping narrative space.
+            </p>
+            `,
+        3: `
+            <h3><i>User-Top Community Bipartite Network</i></h3>
+
+            <h4>Color Legenda</h4>
+
+            <p><b>Community Nodes (Fixed Colors)</b></p>
+            <ul>
+            <li><b>Purple:</b> Action & Adventure</li>
+            <li><b>Teal:</b> Romance & Slice of Life</li>
+            <li><b>Pink:</b> Dark & Psychological</li>
+            <li><b>Dark Blue:</b> Niche & Fantasy</li>
+            </ul>
+
+            <p><b>User Nodes</b></p>
+            <ul>
+            <li><b>Bright Purple:</b> Individual user</li>
+            </ul>
+
+            <p><b>Edges</b></p>
+            <ul>
+            <li><b>White line:</b> User’s dominant community</li>
+            <li><b>Edge thickness:</b> Percentage of completed anime in that community</li>
+            <li><b>Edge opacity:</b> Stronger preference = more opaque edge</li>
+            </ul>
+
+            <h4>How to Interact</h4>
+            <ul>
+            <li>Hover over a user to view their dominant percentage.</li>
+            <li>Hover over a community to see its total associated anime count.</li>
+            <li>Zoom to examine dense specialist clusters.</li>
+            <li>Drag users to observe structural concentration patterns.</li>
+            </ul>
+
+            <h4>Network Definition</h4>
+            <p>
+            This bipartite network connects users to their dominant genre community.
+            </p>
+            <ul>
+            <li><b>User nodes</b> represent individual viewers.</li>
+            <li><b>Community nodes</b> represent detected genre clusters.</li>
+            <li><b>Edges</b> connect each user to the community that accounts for the highest percentage of their completed anime.</li>
+            </ul>
+
+            <h4>Methodology</h4>
+            <ul>
+            <li>For each user, the percentage of completed anime per community was calculated.</li>
+            <li>The highest-percentage community was assigned as the user’s dominant community.</li>
+            <li>Only users with ≥10% concentration were included (noise filtering).</li>
+            <li>50% random user sampling applied for performance efficiency.</li>
+            </ul>
+
+            <h4>Key Analytical Findings</h4>
+
+            <p>
+            Two primary viewer profiles emerge:
+            </p>
+
+            <ul>
+            <li><b>Specialists:</b> Users with strong concentration (>40%) in one community.</li>
+            <li><b>Generalists:</b> Users with weaker concentration and thinner edges.</li>
+            </ul>
+
+            <p>
+            Romance & Slice of Life shows the highest overall engagement volume.
+            </p>
+
+            <p>
+            Niche & Fantasy exhibits the highest proportion of specialists -
+            although fewer users watch niche anime, those who do show strong commitment.
+            </p>
+
+            <h4>Interpretation Guide</h4>
+            <p>
+            Thicker and more opaque edges indicate stronger user specialization.
+            Thin, faint edges indicate broader or more distributed viewing behavior.
+            </p>
+
+            <p>
+            The network reveals preference intensity rather than simple membership,
+            allowing differentiation between casual engagement and strong thematic loyalty.
+            </p>
+        `
+    };
+
+    document.getElementById("info-content").innerHTML = info[networkNumber];
+}
+
+function toggleSidebar() {
+    document.getElementById("sidebar").classList.toggle("hidden");
+}
+
+// Load first network description automatically on page load
+window.addEventListener("DOMContentLoaded", function() {
+    loadNetwork('genre_genre_network.html', 1);
+});
+</script>
+
+</body>
+</html>
